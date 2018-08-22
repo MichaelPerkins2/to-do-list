@@ -11,7 +11,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Form from './Form.js';
 
-const TodosQuery = gql`    
+
+
+const TodosQuery = gql`
     {
         todos {
             id
@@ -97,8 +99,9 @@ class App extends Component {
             update: (store, { date: { createTodo }})  => {
                 // Read the data from our cache for this query.
                 const data = store.readQuery({ query: TodosQuery });
+                const changedData = [createTodo, data.todos]
                 // Add our comment from the mutation to the end.
-                data.todos.unshift(createTodo);
+                data.todos.unshift(changedData);
                 // Write our data back to the cache.
                 store.writeQuery({ query: TodosQuery, data });
             }
