@@ -5,6 +5,8 @@ import { ApolloProvider } from 'react-apollo';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
+// Connecting back-end to the front-end using Apollo Client
+
 const client = new ApolloClient({
     uri: "http://localhost:4000"
 });

@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Form from './Form.js';
 
-
+// graphql-tag parses this string so it can be read on front-end
 
 const TodosQuery = gql`
     {
@@ -54,7 +54,7 @@ class App extends Component {
                 id: todo.id,
                 complete: !todo.complete
             },
-            update: store => {
+            update: store => {                                                  // Updating checkbox - this updates the db as well
                 // Read the data from our cache for this query.
                 const data = store.readQuery({ query: TodosQuery });
                 // Add our comment from the mutation to the end.
@@ -96,12 +96,11 @@ class App extends Component {
             variables: {
                 text,
             },
-            update: (store, { date: { createTodo }})  => {
+            update: (store, { data: { createTodo } })  => {                     // Updates page without refresh
                 // Read the data from our cache for this query.
                 const data = store.readQuery({ query: TodosQuery });
-                const changedData = [createTodo, data.todos]
                 // Add our comment from the mutation to the end.
-                data.todos.unshift(changedData);
+                data.todos.unshift(createTodo);
                 // Write our data back to the cache.
                 store.writeQuery({ query: TodosQuery, data });
             }
@@ -150,8 +149,8 @@ class App extends Component {
 }
 
 export default compose(
-    graphql(CreateTodoMutation, { name: "createTodo"}),
-    graphql(RemoveMutation, { name: "removeTodo"}),
-    graphql(UpdateMutation, { name: "updateTodo"}),
+    graphql(CreateTodoMutation, { name: "createTodo" }),
+    graphql(RemoveMutation, { name: "removeTodo" }),
+    graphql(UpdateMutation, { name: "updateTodo" }),
     graphql(TodosQuery)
 )(App);
