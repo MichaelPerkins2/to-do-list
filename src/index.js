@@ -8,7 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 // Connecting back-end to the front-end using Apollo Client
 
 const client = new ApolloClient({                               // This is where the server is running
-    uri: "http://localhost:4000"
+    uri: "https://to-do-list-trwxrebimw.now.sh"
 });
 
 
