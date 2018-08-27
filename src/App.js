@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
-import Paper from '@material-ui/core/Paper';
+import gql from 'graphql-tag';                                      // Necessary for parsing GraphQL queries
+import { graphql, compose } from 'react-apollo';                    // View layer integration for React - helps to bind
+import Paper from '@material-ui/core/Paper';                        // L4-11 - Styling libraries
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -12,6 +12,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Form from './Form.js';
 
 // graphql-tag parses this string so it can be read on front-end
+
+// Types
 
 const TodosQuery = gql`
     {
@@ -47,16 +49,15 @@ const CreateTodoMutation = gql`
 
 class App extends Component {
 
-    updateTodo = async todo => {
-        // update todo
+    updateTodo = async todo => {                                                // Update - this updates the db
         await this.props.updateTodo({
             variables: {
                 id: todo.id,
                 complete: !todo.complete
             },
-            update: store => {                                                  // Updating checkbox - this updates the db as well
+            update: store => {                                                  // Updating checkbox (cache) - website
                 // Read the data from our cache for this query.
-                const data = store.readQuery({ query: TodosQuery });
+                const data = store.readQuery({ query: TodosQuery });            // Read
                 // Add our comment from the mutation to the end.
                 data.todos = data.todos.map(
                     x =>
@@ -73,8 +74,7 @@ class App extends Component {
         });
     };
 
-    removeTodo = async todo => {
-        // remove todo
+    removeTodo = async todo => {                                                // Delete
         await this.props.removeTodo({
             variables: {
                 id: todo.id,
@@ -90,8 +90,7 @@ class App extends Component {
         });
     }
 
-    createTodo  = async text => {
-        // create todo
+    createTodo  = async text => {                                               // Create
         await this.props.createTodo({
             variables: {
                 text,
